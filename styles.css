@@ -1,0 +1,26 @@
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+          height: 95%;
+          width: 80%;
+          float: right;
+          float:bottom;
+      }
+
+#left-panel {
+    float: left;
+    width: 20%;
+}
+
+#top-panel {
+    float:top;
+    height: 5%;
+}
+
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+      }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>UnHungry</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+    <div id="top-panel">
+        <div id="radius-panel">
+            <input id="radius" value='100'>
+            <button id="setRadius">Set Radius</button>
+        </div>
+        <button id="findUser">Where am I?</button>
+    </div>
+    <div id="left-panel">
+        <h3>Venues</h3>
+        <ul id="results-list">
+        </ul><!-- #results-list -->
+    </div><!-- #results-container -->
+
+    <div id="map"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src = "config.js"></script>
+    <script src="script.js"></script>
+    <script id="mapsScript" async defer src = "https://maps.googleapis.com/maps/api/js?callback=initMap&key=AIzaSyCdYU0FCkzCSFwWmJ3R-XfS_d_oIiClKZo">
+    </script>
+</body>
+
+</html>
