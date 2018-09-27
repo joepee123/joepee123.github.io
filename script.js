@@ -1,5 +1,7 @@
-var map, infoWindow, nearbyVenues, clientID, clientSecret, radius, userCoords, FOOD_ID, COFFEE_ID, url, userMarker, maxVenues, categoryID, lastInfoWindow;
+var map, infoWindow, nearbyVenues, clientID, clientSecret, radius, userCoords, FOOD_ID, COFFEE_ID, url, userMarker, maxVenues, categoryID, lastInfoWindow, lastMarker;
 var markers = new Array();
+
+//Foursquare API filter codes
 FOOD_ID = '4d4b7105d754a06374d81259';
 COFFEE_ID = '4bf58dd8d48988d1e0931735';
 JUICE_ID = '4bf58dd8d48988d112941735';
@@ -16,9 +18,9 @@ $('#findFood').on('click', function () {
 });
 
 
-//This function is called when the google maps script is loaded from index.html
+// This function is called when the google maps script is loaded from index.html
 function initMap() {
-    //creates the map object
+    // Creates the map object
     map = new google.maps.Map(document.getElementById('map'), {
         //Set starting point of map
         center: {
@@ -28,16 +30,14 @@ function initMap() {
         zoom: 18
     });
 
-    //Keeps track of last opened info window
+    // Keeps track of last opened info window
     infoWindow = new google.maps.InfoWindow;
     lastInfoWindow = new google.maps.InfoWindow;
 
-
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
-        //the below method takes in the parameters (successMethod, failMethod)
         navigator.geolocation.getCurrentPosition(loadUserLocation, function () {
-            //error getting location
+            // Error getting location
             handleLocationError(true, infoWindow, map.getCenter());
         });
     } else {
@@ -45,23 +45,22 @@ function initMap() {
         handleLocationError(false, infoWindow, map.getCenter());
     }
 
-    // Create the DIV to hold the control and call the CenterControl()
-    // constructor passing in this DIV.
+    // Create the DIV that will hold the Where Am I? location button
+    // And add as custom control to the map
     var centerControlDiv = document.createElement('div');
     var centerControl = new CenterControl(centerControlDiv, map);
-
     centerControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
 }
 
-//Show current location of the user
+// Places icon on map showing user location
 function loadUserLocation(position) {
     userCoords = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
     };
 
-    //Place little blue dot marker to show user's location
+    // Place little blue dot marker to show user's location
     userMarker = new google.maps.Marker({
         position: userCoords,
         icon: 'blueLocation.png',
@@ -71,9 +70,10 @@ function loadUserLocation(position) {
 
     infoWindow = new google.maps.InfoWindow;
     google.maps.event.addListener(userMarker, 'click', showUserLocation(userMarker));
-    google.maps.event.addListener(userMarker, 'dragend', function() {
+    
+    //Allows user to drag location to another position
+    google.maps.event.addListener(userMarker, 'dragend', function () {
         userCoords = userMarker.getPosition();
-        console.log('Changed user coords to: ' + userMarker.getPosition().lat());
     });
 
     showUserLocation(userMarker)();
@@ -81,6 +81,7 @@ function loadUserLocation(position) {
     getVenues();
 }
 
+// Opens info window on user location
 function showUserLocation(marker) {
     return function () {
         lastInfoWindow.close();
@@ -91,6 +92,7 @@ function showUserLocation(marker) {
     }
 }
 
+// This function is called if browser does not support location, or if location is blocked
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
     infoWindow.setContent(browserHasGeolocation ?
@@ -100,10 +102,10 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     lastInfoWindow = infoWindow;
 }
 
-//This functions gets the requested number of nearest food stalls
+// This functions gets the requested number of nearest food stalls based on filters
 function getVenues() {
     $('#results-list').empty();
-    
+
 
     var request = new XMLHttpRequest();
     url = getURL();
@@ -135,7 +137,9 @@ function getVenues() {
     }
 }
 
+// Get the appropriate URL for the Foursquare API based on search filters
 function getURL() {
+    
     //If radius has been set by user, use that value
     if ($('#radius').val()) {
         radius = $('#radius').val();
@@ -154,7 +158,7 @@ function getURL() {
         maxVenues = '10';
     }
 
-    //Default URL has radius == 100, maxVenues == 10 and category == food (all food stores)
+    //Default URL has radius == 100, maxVenues == 10 and category == food (all food venues)
     url = 'https://api.foursquare.com/v2/venues/search?ll=' + userMarker.getPosition().lat() + ',' + userMarker.getPosition().lng() + '&client_id=' + config.clientID + '&client_secret=' + config.clientSecret + '&v=20180921&radius=' + radius + '&limit=' + maxVenues + '&openNow=1';
 
     categoryID = undefined;
@@ -173,13 +177,12 @@ function getURL() {
     if ($('#foodChecked').prop('checked') || !($('#juiceChecked').prop('checked') || $('#coffeeChecked').prop('checked') || $('#vegChecked').prop('checked'))) {
         categoryID = 'categoryId=' + FOOD_ID;
     }
-    
+
     url += '&' + categoryID;
-    console.log(url);
     return url;
 }
 
-//Takes a list of venues and creates markers, placing them on the map
+// Takes a list of venues and creates markers, placing them on the map
 function showVenueMarkers(venues) {
     deleteMarkers();
     var i, venue, letterID, bounds;
@@ -192,14 +195,17 @@ function showVenueMarkers(venues) {
                 lng: venue.location.lng
             },
             map: map,
-            label: letterID
+            animation: google.maps.Animation.DROP,
+            label: {
+                text: letterID
+            } 
         });
 
-        google.maps.event.addListener(marker, 'click', showMarkerInfo(marker, venue));
+        google.maps.event.addListener(marker, 'click', showMarkerInfo(marker, venue, i, letterID));
 
         addMarkerToList(venue, letterID, i);
 
-        $('#listMarker' + i).on('click', showMarkerInfo(marker, venue));
+        $('#list-marker' + i).on('click', showMarkerInfo(marker, venue, i, letterID));
         markers.push(marker);
     }
 
@@ -209,7 +215,7 @@ function showVenueMarkers(venues) {
     $('#left-panel').css('background-color', '#7fdff9');
 }
 
-//Make sure all markers are visible within the initial zoom level on map
+//Make sure all markers are visible within the initial zoom level on map when searching
 function fitMapToMarkers(markers) {
 
     bounds = new google.maps.LatLngBounds();
@@ -230,18 +236,17 @@ function fitMapToMarkers(markers) {
     map.setCenter(userCoords)
 }
 
+// Add a new marker to the list of markers
 function addMarkerToList(venue, letterID, id) {
-    //Add marker to results list
     $('#results-list').append(
         $('<li />')
-        .attr('id', 'listMarker' + id)
-        .html('<div class = "list-venue"><b><u>' + letterID + ': ' + venue.name + '</u></b><br>' + venue.categories[0].name + '<br>' + venue.location.address + '<br> Distance: ' + venue.location.distance + 'm</div>')
+        .attr('id', 'list-marker' + id)
+        .html('<div class = "list-venue" + id = "list-venue' + id + '"><b><u>' + letterID + ': ' + venue.name + '</u></b><br>' + venue.categories[0].name + '<br>' + venue.location.address + '<br> Distance: ' + venue.location.distance + 'm</div>')
     );
-
 }
 
-//Get this working again for the lists
-function showMarkerInfo(marker, venue) {
+// Show marker information when a marker is clicked on the map or on the list
+function showMarkerInfo(marker, venue, id, letterID) {
     return function () {
         lastInfoWindow.close();
         infoWindow = new google.maps.InfoWindow;
@@ -249,9 +254,27 @@ function showMarkerInfo(marker, venue) {
         infoWindow.open(map, marker);
         map.panTo(marker.position);
         lastInfoWindow = infoWindow;
+        
+        //Emphasize selected marker on list
+        $('.list-venue').removeClass('selected');
+        $("#list-venue" + id).addClass('selected');
+        
+        //Emphasize selected marker on map
+        markers[id].setLabel({
+            text: letterID,
+            fontSize: "20px",
+            fontWeight: "bold"
+        });
+        
+        //If a previous marker has been selected, de-select it
+        if (lastMarker>=0 && lastMarker!==id) {
+        markers[lastMarker].setLabel(String.fromCharCode("A".charCodeAt(0) + lastMarker));        
+        }
+        lastMarker = id;
     }
 }
 
+// Remove all markers from the map and list
 function deleteMarkers() {
     //Remove all elements from list of venues
     $('#results-list').empty();
@@ -263,41 +286,24 @@ function deleteMarkers() {
     markers = [];
 }
 
-/**
- * The CenterControl adds a control to the map that recenters the map on
- * Chicago.
- * This constructor takes the control DIV as an argument.
- * @constructor
- */
+// Function to add Where Am I? button that re-initialises map to user location
 function CenterControl(controlDiv, map) {
 
-    // Set CSS for the control border.
+    // Create control border
     var controlUI = document.createElement('div');
-    controlUI.style.backgroundColor = '#25C38E';
-    controlUI.style.border = '2px solid #F6C847';
-    controlUI.style.borderRadius = '3px';
-    controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-    controlUI.style.cursor = 'pointer';
-    controlUI.style.marginBottom = '22px';
-    controlUI.style.textAlign = 'center';
+    controlUI.classList.add("control-UI");
     controlUI.title = 'Click to recenter the map';
     controlDiv.appendChild(controlUI);
 
-    // Set CSS for the control interior.
+    // Create control interior
     var controlText = document.createElement('div');
-    controlText.style.color = 'white';
-    controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-    controlText.style.fontSize = '16px';
-    controlText.style.lineHeight = '38px';
-    controlText.style.paddingLeft = '5px';
-    controlText.style.paddingRight = '5px';
+    controlText.classList.add("control-text");
     controlText.innerHTML = 'Where Am I?';
     controlUI.appendChild(controlText);
 
-    // Setup the click event listeners: simply set the map to Chicago.
+    // Add event listener for Where Am I? button - re-initialise map to centre on user
     controlUI.addEventListener('click', function () {
         initMap();
     });
 
 }
-
