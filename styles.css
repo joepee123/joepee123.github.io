@@ -159,12 +159,7 @@ input[type=submit],
     cursor: pointer;
 }
 
-input[type=submit]:hover {
-    color: black;
-    border-color: black;
-}
-
-#find-food:hover {
+input[type=submit]:hover, #find-food:hover {
     color: black;
     border-color: black;
 }
