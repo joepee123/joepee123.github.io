@@ -80,7 +80,7 @@ h3 {
 #results-list {
     height: 75%;
     overflow-y: scroll;
-    float:bottom;
+    float: bottom;
 }
 
 .unhungry {
@@ -147,7 +147,8 @@ input[type=checkbox] {
 
 }
 
-input[type=submit], #find-food {
+input[type=submit],
+#find-food {
     font-size: 18px;
     background-color: #25C38E;
     border: 1px solid #F6C847;
@@ -160,6 +161,12 @@ input[type=submit], #find-food {
 
 input[type=submit]:hover {
     color: black;
+    border-color: black;
+}
+
+#find-food:hover {
+    color: black;
+    border-color: black;
 }
 
 input:hover {
@@ -176,7 +183,7 @@ input:hover {
     background-color: #25C38E;
     border: 2px solid #F6C847;
     border-radius: 3px;
-    box-shadow: 0 2px 6px rgba(0,0,0,.3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
     cursor: pointer;
     margin-bottom: 22px;
     text-align: center;
@@ -187,7 +194,7 @@ input:hover {
     color: white;
     font-family: Roboto;
     font-size: 16px;
-    line-height = 38px;
+    line-height=38px;
 }
 
 .control-text:hover {

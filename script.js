@@ -1,4 +1,4 @@
-var map, infoWindow, nearbyVenues, clientID, clientSecret, radius, userCoords, FOOD_ID, COFFEE_ID, url, userMarker, maxVenues, categoryID, lastInfoWindow, lastMarker;
+var map, infoWindow, radius, userCoords, FOOD_ID, COFFEE_ID, JUICE_ID, VEG_ID, url, userMarker, maxVenues, categoryID, lastInfoWindow, lastMarker;
 var markers = new Array();
 
 //Foursquare API filter codes
@@ -70,7 +70,7 @@ function loadUserLocation(position) {
 
     infoWindow = new google.maps.InfoWindow;
     google.maps.event.addListener(userMarker, 'click', showUserLocation(userMarker));
-    
+
     //Allows user to drag location to another position
     google.maps.event.addListener(userMarker, 'dragend', function () {
         userCoords = userMarker.getPosition();
@@ -139,9 +139,9 @@ function getVenues() {
 
 // Get the appropriate URL for the Foursquare API based on search filters
 function getURL() {
-    
+
     //If radius has been set by user, use that value
-    if ($('#radius').val()) {
+    if ($('#radius').val() && $('#radius').val() > 0) {
         radius = $('#radius').val();
 
     }
@@ -151,7 +151,7 @@ function getURL() {
         radius = '100';
     }
 
-    if ($('#maxVenues').val()) {
+    if ($('#maxVenues').val() && $('#maxVenues').val() > 0) {
         maxVenues = $('#maxVenues').val();
     } else {
         $('#maxVenues').attr('value', '10');
@@ -198,7 +198,7 @@ function showVenueMarkers(venues) {
             animation: google.maps.Animation.DROP,
             label: {
                 text: letterID
-            } 
+            }
         });
 
         google.maps.event.addListener(marker, 'click', showMarkerInfo(marker, venue, i, letterID));
@@ -254,21 +254,21 @@ function showMarkerInfo(marker, venue, id, letterID) {
         infoWindow.open(map, marker);
         map.panTo(marker.position);
         lastInfoWindow = infoWindow;
-        
+
         //Emphasize selected marker on list
         $('.list-venue').removeClass('selected');
         $("#list-venue" + id).addClass('selected');
-        
+
         //Emphasize selected marker on map
         markers[id].setLabel({
             text: letterID,
             fontSize: "20px",
             fontWeight: "bold"
         });
-        
+
         //If a previous marker has been selected, de-select it
-        if (lastMarker>=0 && lastMarker!==id) {
-        markers[lastMarker].setLabel(String.fromCharCode("A".charCodeAt(0) + lastMarker));        
+        if (lastMarker >= 0 && lastMarker !== id) {
+            markers[lastMarker].setLabel(String.fromCharCode("A".charCodeAt(0) + lastMarker));
         }
         lastMarker = id;
     }
