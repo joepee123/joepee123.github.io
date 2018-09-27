@@ -12,32 +12,37 @@
 
 <body>
 
-    <div id="top-panel">
-        <form id="configForm">
-            <label for="radius">Radius:</label>
-            <input name="radius" id="radius" type="number" />
-            <label for="maxVenues">Max Venues:</label>
-            <input name="maxVenues" id="maxVenues" type="number" />
-            <label for="foodChecked">Food</label>
-            <input name="foodChecked" id="foodChecked" type="checkbox" />
-            <label for="coffeeChecked">Coffee</label>
-            <input name="coffeeChecked" id="coffeeChecked" type="checkbox" />
-            <label for="juiceChecked">Juice</label>
-            <input name="juiceChecked" id="juiceChecked" type="checkbox" />
-            <label for="vegChecked">Vegetarian</label>
-            <input name="vegChecked" id="vegChecked" type="checkbox" />
-            <input type="submit" value="Find Food!" />
-        </form>
-    </div>
-    <div id="left-panel-canvas">
-        <div id="left-panel">
-            <img src="hamburger.png" alt="UnHungry Logo" id="smallLogo" class="unhungry">
-            <h3>Venues</h3>
-            <ul id="results-list"></ul>
+    <div class="wrap">
+        <div id="top-panel">
+            <form class="config-form" id="config-form">
+                <label for="radius">Radius(m):</label>
+                <input name="radius" id="radius" type="number" />
+                <label for="maxVenues">Max Venues:</label>
+                <input name="maxVenues" id="maxVenues" type="number" />
+                <label for="foodChecked">Food</label>
+                <input name="foodChecked" id="foodChecked" type="checkbox" />
+                <label for="coffeeChecked">Coffee</label>
+                <input name="coffeeChecked" id="coffeeChecked" type="checkbox" />
+                <label for="juiceChecked">Juice</label>
+                <input name="juiceChecked" id="juiceChecked" type="checkbox" />
+                <label for="vegChecked">Vegetarian</label>
+                <input name="vegChecked" id="vegChecked" type="checkbox" />
+                <input type="submit" value="Find Food!" />
+            </form>
+        </div>
+        <div id="left-panel-canvas">
+            <div id="left-panel">
+                <img src="hamburger.png" alt="UnHungry Logo" id="small-logo" class="unhungry">
+                <h3>Results</h3>
+                <ul id="results-list"></ul>
+            </div>
+        </div>
+
+        <div id="map-container">
+            <div id="map"></div>
         </div>
     </div>
 
-    <div id="map"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="config.js"></script>
     <script src="script.js"></script>
