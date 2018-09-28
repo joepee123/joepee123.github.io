@@ -36,7 +36,7 @@ function initMap() {
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(loadUserLocation, function () {
+        navigator.geolocation.getCurrentPosition(loadUserLocation, () => {
             // Error getting location
             handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -72,7 +72,7 @@ function loadUserLocation(position) {
     google.maps.event.addListener(userMarker, 'click', showUserLocation(userMarker));
 
     //Allows user to drag location to another position
-    google.maps.event.addListener(userMarker, 'dragend', function () {
+    google.maps.event.addListener(userMarker, 'dragend', () => {
         userCoords = userMarker.getPosition();
     });
 
@@ -83,7 +83,7 @@ function loadUserLocation(position) {
 
 // Opens info window on user location
 function showUserLocation(marker) {
-    return function () {
+    return () => {
         lastInfoWindow.close();
         infoWindow.setContent('You are here!');
         infoWindow.open(map, marker);
@@ -247,7 +247,7 @@ function addMarkerToList(venue, letterID, id) {
 
 // Show marker information when a marker is clicked on the map or on the list
 function showMarkerInfo(marker, venue, id, letterID) {
-    return function () {
+    return () => {
         lastInfoWindow.close();
         infoWindow = new google.maps.InfoWindow;
         infoWindow.setContent('<div><b>' + venue.name + '</b><br>' + venue.categories[0].name + '<br>' + venue.location.address + '<br> Distance: ' + venue.location.distance + 'm</div>');
@@ -302,7 +302,7 @@ function CenterControl(controlDiv, map) {
     controlUI.appendChild(controlText);
 
     // Add event listener for Where Am I? button - re-initialise map to centre on user
-    controlUI.addEventListener('click', function () {
+    controlUI.addEventListener('click', () => {
         initMap();
     });
 
