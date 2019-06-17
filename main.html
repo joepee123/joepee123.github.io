@@ -1,53 +1,62 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <title>UnHungry</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="resources/css/default.css">
-    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="resources/css/default.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto"
+      rel="stylesheet"
+    />
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <div class="wrap">
-        <div id="top-panel">
-            <form id="config-form">
-                <label for="radius">Radius(m):</label>
-                <input name="radius" id="radius" type="number" />
-                <label for="maxVenues">Max Venues:</label>
-                <input name="maxVenues" id="maxVenues" type="number" />
-                <label for="foodChecked">Food</label>
-                <input name="foodChecked" id="foodChecked" type="checkbox" />
-                <label for="coffeeChecked">Coffee</label>
-                <input name="coffeeChecked" id="coffeeChecked" type="checkbox" />
-                <label for="juiceChecked">Juice</label>
-                <input name="juiceChecked" id="juiceChecked" type="checkbox" />
-                <label for="vegChecked">Vegetarian</label>
-                <input name="vegChecked" id="vegChecked" type="checkbox" />
-                <input type="submit" value="Find Food!" />
-            </form>
+      <div id="top-panel">
+        <form id="config-form">
+          <label for="radius">Radius(m):</label>
+          <input name="radius" id="radius" type="number" />
+          <label for="maxVenues">Max Venues:</label>
+          <input name="maxVenues" id="maxVenues" type="number" />
+          <label for="foodChecked">Food</label>
+          <input name="foodChecked" id="foodChecked" type="checkbox" />
+          <label for="coffeeChecked">Coffee</label>
+          <input name="coffeeChecked" id="coffeeChecked" type="checkbox" />
+          <label for="juiceChecked">Juice</label>
+          <input name="juiceChecked" id="juiceChecked" type="checkbox" />
+          <label for="vegChecked">Vegetarian</label>
+          <input name="vegChecked" id="vegChecked" type="checkbox" />
+          <input type="submit" value="Find Food!" />
+        </form>
+      </div>
+      <div id="left-panel-canvas">
+        <div id="left-panel">
+          <a href="main.html"
+            ><img
+              src="resources/images/hamburger.png"
+              alt="UnHungry Logo"
+              id="small-logo"
+              class="unhungry"
+          /></a>
+          <h3>Results</h3>
+          <ul id="results-list"></ul>
         </div>
-        <div id="left-panel-canvas">
-            <div id="left-panel">
-                <a href="main.html"><img src="resources/images/hamburger.png" alt="UnHungry Logo" id="small-logo" class="unhungry"></a>
-                <h3>Results</h3>
-                <ul id="results-list"></ul>
-            </div>
-        </div>
+      </div>
 
-        <div id="map-container">
-            <div id="map"></div>
-        </div>
+      <div id="map-container">
+        <div id="map"></div>
+      </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="resources/js/config.js"></script>
     <script src="resources/js/script.js"></script>
-    <script id="mapsScript" async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap&key=AIzaSyCdYU0FCkzCSFwWmJ3R-XfS_d_oIiClKZo">
-    </script>
-</body>
-
+    <script
+      id="mapsScript"
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?callback=initMap&key=AIzaSyCsGXDrLsqyCciPiSpWm3w6IK6smTV9hvc"
+    ></script>
+  </body>
 </html>
