@@ -13,4 +13,4 @@ Future improvements:
 - Let user log in and save favourite venues
 
 Designed and Created by Joseph Preyer, September 2018.
-Keep your eyes peeled for upcoming apps: UnBored, UnLazy and UnSleepy!
+Keep your eyes peeled for upcoming apps: UnBored and UnSober!
