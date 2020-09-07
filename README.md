@@ -14,3 +14,5 @@ Future improvements:
 
 Designed and Created by Joseph Preyer, September 2018.
 Keep your eyes peeled for upcoming apps: UnBored and UnSober!
+
+Demo https://joepreyer.github.io/unhungry/
